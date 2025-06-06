@@ -1,2 +1,3 @@
 # Tinker-1
-Tinker 1
+
+Steve’s first GitHub project. Learning the ropes
