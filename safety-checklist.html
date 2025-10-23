@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Process Confirmation Checklist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.4;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding-bottom: 40px;
+        }
+
+        /* Live Progress Header - Sticky */
+        .progress-header {
+            position: sticky;
+            top: 0;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 12px 20px;
+            z-index: 100;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .progress-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .progress-info-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .progress-info-item strong {
+            color: #667eea;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 24px;
+            background: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 12px;
+            color: #333;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .header-section h1 {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .header-section p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .form-content {
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            color: #667eea;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #667eea;
+            font-weight: 600;
+        }
+
+        .user-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        .input-group input,
+        .input-group select {
+            padding: 8px 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .category-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .category-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .category-progress {
+            font-size: 11px;
+            color: #667eea;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 6px;
+            margin-bottom: 4px;
+            background: white;
+            border-radius: 4px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .checklist-item:hover {
+            background: #f0f4ff;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .checklist-item label {
+            font-size: 13px;
+            cursor: pointer;
+            flex: 1;
+            user-select: none;
+        }
+
+        .comments-section {
+            margin-bottom: 20px;
+        }
+
+        .comments-section textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+            transition: border-color 0.2s;
+        }
+
+        .comments-section textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #555;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .history-section {
+            border-top: 2px solid #e0e0e0;
+            padding-top: 20px;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .history-table th {
+            background: #667eea;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .history-table td {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .history-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-complete {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-incomplete {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-view {
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-view:hover {
+            background: #5568d3;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .modal-header h3 {
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .modal-details p {
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .modal-category {
+            margin-top: 12px;
+        }
+
+        .modal-category h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .modal-category ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .modal-category li {
+            padding: 4px 0;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            .checklist-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-info {
+                font-size: 11px;
+            }
+
+            .user-info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Live Progress Header -->
+    <div class="progress-header">
+        <div class="progress-content">
+            <div class="progress-info">
+                <div class="progress-info-item">
+                    <strong>Name:</strong> <span id="headerName">-</span>
+                </div>
+                <div class="progress-info-item">
+                    <strong>Date:</strong> <span id="headerDate">-</span>
+                </div>
+                <div class="progress-info-item">
+                    <strong>Site:</strong> <span id="headerSite">-</span>
+                </div>
+                <div class="progress-info-item">
+                    <strong>Items:</strong> <span id="headerItems">0/0</span>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header-section">
+            <h1>Safety Process Confirmation Checklist</h1>
+            <p>Complete all items and submit your safety inspection</p>
+        </div>
+
+        <div class="form-content">
+            <!-- User Information -->
+            <div class="section">
+                <div class="section-title">User Information</div>
+                <div class="user-info-grid">
+                    <div class="input-group">
+                        <label for="checkerName">Name *</label>
+                        <input type="text" id="checkerName" placeholder="Enter your name" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="checkDate">Date *</label>
+                        <input type="date" id="checkDate" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="department">Site *</label>
+                        <select id="department">
+                            <option value="">Select Site</option>
+                            <option value="1501 Signet">1501 Signet</option>
+                            <option value="1502 Signet Lab">1502 Signet Lab</option>
+                            <option value="4100 Weston">4100 Weston</option>
+                            <option value="3701 Weston">3701 Weston</option>
+                            <option value="285 Garyray">285 Garyray</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Safety Checklist -->
+            <div class="section">
+                <div class="section-title">Safety Checklist</div>
+                <div class="checklist-grid">
+                    <!-- PPE -->
+                    <div class="category-card" data-category="ppe">
+                        <div class="category-title">
+                            Personal Protective Equipment
+                            <span class="category-progress" data-progress="ppe">0/4</span>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('ppe1')">
+                            <input type="checkbox" id="ppe1" name="ppe" onclick="event.stopPropagation()">
+                            <label for="ppe1">All employees wearing appropriate PPE for their tasks</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('ppe2')">
+                            <input type="checkbox" id="ppe2" name="ppe" onclick="event.stopPropagation()">
+                            <label for="ppe2">PPE in good condition with no visible damage</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('ppe3')">
+                            <input type="checkbox" id="ppe3" name="ppe" onclick="event.stopPropagation()">
+                            <label for="ppe3">PPE storage areas clean and organized</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('ppe4')">
+                            <input type="checkbox" id="ppe4" name="ppe" onclick="event.stopPropagation()">
+                            <label for="ppe4">Sufficient PPE available for all staff and visitors</label>
+                        </div>
+                    </div>
+
+                    <!-- Fire Safety -->
+                    <div class="category-card" data-category="fire">
+                        <div class="category-title">
+                            Fire Safety
+                            <span class="category-progress" data-progress="fire">0/5</span>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('fire1')">
+                            <input type="checkbox" id="fire1" name="fire" onclick="event.stopPropagation()">
+                            <label for="fire1">Fire extinguishers accessible and not obstructed</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('fire2')">
+                            <input type="checkbox" id="fire2" name="fire" onclick="event.stopPropagation()">
+                            <label for="fire2">Fire extinguishers pressure gauges in the green</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('fire3')">
+                            <input type="checkbox" id="fire3" name="fire" onclick="event.stopPropagation()">
+                            <label for="fire3">Fire alarm pull stations accessible and visible</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('fire4')">
+                            <input type="checkbox" id="fire4" name="fire" onclick="event.stopPropagation()">
+                            <label for="fire4">Emergency exit routes clear and unobstructed</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('fire5')">
+                            <input type="checkbox" id="fire5" name="fire" onclick="event.stopPropagation()">
+                            <label for="fire5">Exit signs illuminated and visible</label>
+                        </div>
+                    </div>
+
+                    <!-- General Work Area -->
+                    <div class="category-card" data-category="area">
+                        <div class="category-title">
+                            General Work Area Safety
+                            <span class="category-progress" data-progress="area">0/5</span>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('area1')">
+                            <input type="checkbox" id="area1" name="area" onclick="event.stopPropagation()">
+                            <label for="area1">Floors clean, dry, and free of trip hazards</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('area2')">
+                            <input type="checkbox" id="area2" name="area" onclick="event.stopPropagation()">
+                            <label for="area2">Aisles and walkways clear and properly marked</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('area3')">
+                            <input type="checkbox" id="area3" name="area" onclick="event.stopPropagation()">
+                            <label for="area3">Materials properly stored and stacked</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('area4')">
+                            <input type="checkbox" id="area4" name="area" onclick="event.stopPropagation()">
+                            <label for="area4">Lighting adequate for all work areas</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('area5')">
+                            <input type="checkbox" id="area5" name="area" onclick="event.stopPropagation()">
+                            <label for="area5">Warning signs and safety instructions visible</label>
+                        </div>
+                    </div>
+
+                    <!-- Machinery and Equipment -->
+                    <div class="category-card" data-category="equip">
+                        <div class="category-title">
+                            Machinery and Equipment
+                            <span class="category-progress" data-progress="equip">0/5</span>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('equip1')">
+                            <input type="checkbox" id="equip1" name="equip" onclick="event.stopPropagation()">
+                            <label for="equip1">Machine guards in place and functioning</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('equip2')">
+                            <input type="checkbox" id="equip2" name="equip" onclick="event.stopPropagation()">
+                            <label for="equip2">Emergency stops accessible and working properly</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('equip3')">
+                            <input type="checkbox" id="equip3" name="equip" onclick="event.stopPropagation()">
+                            <label for="equip3">Equipment in good working condition</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('equip4')">
+                            <input type="checkbox" id="equip4" name="equip" onclick="event.stopPropagation()">
+                            <label for="equip4">Lockout/tagout procedures being followed</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('equip5')">
+                            <input type="checkbox" id="equip5" name="equip" onclick="event.stopPropagation()">
+                            <label for="equip5">Equipment operating manuals accessible</label>
+                        </div>
+                    </div>
+
+                    <!-- Electrical Safety -->
+                    <div class="category-card" data-category="elec">
+                        <div class="category-title">
+                            Electrical Safety
+                            <span class="category-progress" data-progress="elec">0/4</span>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('elec1')">
+                            <input type="checkbox" id="elec1" name="elec" onclick="event.stopPropagation()">
+                            <label for="elec1">Electrical panels accessible (3 feet clearance)</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('elec2')">
+                            <input type="checkbox" id="elec2" name="elec" onclick="event.stopPropagation()">
+                            <label for="elec2">No exposed wiring or damaged cords</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('elec3')">
+                            <input type="checkbox" id="elec3" name="elec" onclick="event.stopPropagation()">
+                            <label for="elec3">Extension cords used properly (not permanent)</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('elec4')">
+                            <input type="checkbox" id="elec4" name="elec" onclick="event.stopPropagation()">
+                            <label for="elec4">GFCI protection where required (wet locations)</label>
+                        </div>
+                    </div>
+
+                    <!-- Chemical Safety -->
+                    <div class="category-card" data-category="chem">
+                        <div class="category-title">
+                            Chemical Safety
+                            <span class="category-progress" data-progress="chem">0/5</span>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('chem1')">
+                            <input type="checkbox" id="chem1" name="chem" onclick="event.stopPropagation()">
+                            <label for="chem1">Safety Data Sheets (SDS) accessible to all</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('chem2')">
+                            <input type="checkbox" id="chem2" name="chem" onclick="event.stopPropagation()">
+                            <label for="chem2">Chemical containers properly labeled</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('chem3')">
+                            <input type="checkbox" id="chem3" name="chem" onclick="event.stopPropagation()">
+                            <label for="chem3">Chemicals stored properly and segregated</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('chem4')">
+                            <input type="checkbox" id="chem4" name="chem" onclick="event.stopPropagation()">
+                            <label for="chem4">Eye wash stations and safety showers accessible</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('chem5')">
+                            <input type="checkbox" id="chem5" name="chem" onclick="event.stopPropagation()">
+                            <label for="chem5">Chemical spill kits available and complete</label>
+                        </div>
+                    </div>
+
+                    <!-- First Aid and Emergency -->
+                    <div class="category-card" data-category="emer">
+                        <div class="category-title">
+                            First Aid & Emergency
+                            <span class="category-progress" data-progress="emer">0/4</span>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('emer1')">
+                            <input type="checkbox" id="emer1" name="emer" onclick="event.stopPropagation()">
+                            <label for="emer1">First aid kits accessible and fully stocked</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('emer2')">
+                            <input type="checkbox" id="emer2" name="emer" onclick="event.stopPropagation()">
+                            <label for="emer2">Emergency contact information posted and current</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('emer3')">
+                            <input type="checkbox" id="emer3" name="emer" onclick="event.stopPropagation()">
+                            <label for="emer3">Emergency evacuation routes posted</label>
+                        </div>
+                        <div class="checklist-item" onclick="toggleCheckbox('emer4')">
+                            <input type="checkbox" id="emer4" name="emer" onclick="event.stopPropagation()">
+                            <label for="emer4">AED (if available) operating with green indicator</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments -->
+            <div class="section comments-section">
+                <div class="section-title">Comments / Issues</div>
+                <textarea id="comments" placeholder="Note any safety issues that need attention or follow-up..."></textarea>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <button class="btn-primary" onclick="submitChecklist()">Submit Checklist</button>
+                <button class="btn-secondary" onclick="resetForm()">Clear Form</button>
+            </div>
+
+            <!-- History -->
+            <div class="section history-section">
+                <div class="section-title">Checklist History</div>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Site</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize on page load
+        window.onload = function() {
+            document.getElementById('checkDate').valueAsDate = new Date();
+            loadHistory();
+            updateProgress();
+
+            // Add event listeners for real-time updates
+            document.getElementById('checkerName').addEventListener('input', updateHeader);
+            document.getElementById('checkDate').addEventListener('change', updateHeader);
+            document.getElementById('department').addEventListener('change', updateHeader);
+
+            // Add listeners to all checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', updateProgress);
+            });
+        };
+
+        // Toggle checkbox when clicking on item
+        function toggleCheckbox(id) {
+            const checkbox = document.getElementById(id);
+            checkbox.checked = !checkbox.checked;
+            updateProgress();
+        }
+
+        // Update the live progress header
+        function updateProgress() {
+            const totalCheckboxes = document.querySelectorAll('input[type="checkbox"]').length;
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = totalCheckboxes > 0 ? Math.round((checkedBoxes / totalCheckboxes) * 100) : 0;
+
+            // Update progress bar
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = percentage + '%';
+            document.getElementById('headerItems').textContent = checkedBoxes + '/' + totalCheckboxes;
+
+            // Update category progress
+            const categories = ['ppe', 'fire', 'area', 'equip', 'elec', 'chem', 'emer'];
+            categories.forEach(cat => {
+                const catCheckboxes = document.querySelectorAll(`input[name="${cat}"]`);
+                const catChecked = document.querySelectorAll(`input[name="${cat}"]:checked`).length;
+                const catTotal = catCheckboxes.length;
+                const catProgress = document.querySelector(`[data-progress="${cat}"]`);
+                if (catProgress) {
+                    catProgress.textContent = catChecked + '/' + catTotal;
+                }
+            });
+        }
+
+        // Update header information
+        function updateHeader() {
+            const name = document.getElementById('checkerName').value || '-';
+            const date = document.getElementById('checkDate').value || '-';
+            const site = document.getElementById('department').value || '-';
+
+            document.getElementById('headerName').textContent = name;
+            document.getElementById('headerDate').textContent = date ? new Date(date + 'T00:00:00').toLocaleDateString() : '-';
+            document.getElementById('headerSite').textContent = site;
+        }
+
+        // Submit checklist
+        function submitChecklist() {
+            const name = document.getElementById('checkerName').value;
+            const date = document.getElementById('checkDate').value;
+            const department = document.getElementById('department').value;
+
+            if (!name || !date || !department) {
+                alert('Please complete all required fields (Name, Date, and Site).');
+                return;
+            }
+
+            const totalCheckboxes = document.querySelectorAll('input[type="checkbox"]').length;
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked').length;
+
+            const entry = {
+                name: name,
+                date: date,
+                department: department,
+                timestamp: new Date().toISOString(),
+                comments: document.getElementById('comments').value,
+                checkedItems: checkedBoxes,
+                totalItems: totalCheckboxes,
+                checklistItems: {}
+            };
+
+            // Store checklist data by category
+            document.querySelectorAll('.category-card').forEach(card => {
+                const categoryName = card.querySelector('.category-title').textContent.trim().split('\n')[0];
+                entry.checklistItems[categoryName] = [];
+
+                card.querySelectorAll('.checklist-item').forEach(item => {
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    const label = item.querySelector('label').textContent;
+
+                    entry.checklistItems[categoryName].push({
+                        item: label,
+                        checked: checkbox.checked
+                    });
+                });
+            });
+
+            // Save to localStorage
+            let history = JSON.parse(localStorage.getItem('safetyChecklistHistory') || '[]');
+            history.push(entry);
+            localStorage.setItem('safetyChecklistHistory', JSON.stringify(history));
+
+            loadHistory();
+            resetForm();
+            alert('Checklist submitted successfully!');
+        }
+
+        // Load history from localStorage
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('safetyChecklistHistory') || '[]');
+            const tableBody = document.getElementById('historyBody');
+            tableBody.innerHTML = '';
+
+            history.slice().reverse().forEach((entry, index) => {
+                const row = document.createElement('tr');
+                const dateObj = new Date(entry.date + 'T00:00:00');
+                const formattedDate = dateObj.toLocaleDateString();
+                const completionPercent = Math.round((entry.checkedItems / entry.totalItems) * 100);
+                const statusClass = completionPercent === 100 ? 'status-complete' : 'status-incomplete';
+                const statusText = completionPercent === 100 ? 'Complete' : 'Incomplete';
+
+                row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${entry.name}</td>
+                    <td>${entry.department}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText} (${completionPercent}%)</span></td>
+                    <td><button class="btn-view" onclick="viewDetails(${history.length - 1 - index})">View</button></td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // View details of a checklist entry
+        function viewDetails(index) {
+            const history = JSON.parse(localStorage.getItem('safetyChecklistHistory') || '[]');
+            const entry = history[index];
+
+            let detailsHTML = `
+                <div class="modal-header">
+                    <h3>Safety Checklist Details</h3>
+                </div>
+                <div class="modal-details">
+                    <p><strong>Date:</strong> ${new Date(entry.date + 'T00:00:00').toLocaleDateString()}</p>
+                    <p><strong>Name:</strong> ${entry.name}</p>
+                    <p><strong>Site:</strong> ${entry.department}</p>
+                    <p><strong>Completion:</strong> ${entry.checkedItems}/${entry.totalItems} items (${Math.round((entry.checkedItems / entry.totalItems) * 100)}%)</p>
+                    ${entry.comments ? `<p><strong>Comments:</strong> ${entry.comments}</p>` : ''}
+                    <hr style="margin: 16px 0;">
+            `;
+
+            for (const category in entry.checklistItems) {
+                detailsHTML += `
+                    <div class="modal-category">
+                        <h4>${category}</h4>
+                        <ul>
+                `;
+
+                entry.checklistItems[category].forEach(item => {
+                    const icon = item.checked ? '✅' : '❌';
+                    detailsHTML += `<li>${icon} ${item.item}</li>`;
+                });
+
+                detailsHTML += `</ul></div>`;
+            }
+
+            detailsHTML += `</div>`;
+
+            // Create modal
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            overlay.onclick = function(e) {
+                if (e.target === overlay) {
+                    document.body.removeChild(overlay);
+                }
+            };
+
+            const modal = document.createElement('div');
+            modal.className = 'modal-content';
+            modal.innerHTML = detailsHTML;
+
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'btn-primary';
+            closeBtn.textContent = 'Close';
+            closeBtn.style.marginTop = '16px';
+            closeBtn.onclick = function() {
+                document.body.removeChild(overlay);
+            };
+
+            modal.appendChild(closeBtn);
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('checkerName').value = '';
+            document.getElementById('checkDate').valueAsDate = new Date();
+            document.getElementById('department').value = '';
+            document.getElementById('comments').value = '';
+
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            updateProgress();
+            updateHeader();
+        }
+
+        // Clear all data (optional - for testing)
+        function clearAllData() {
+            if (confirm('Are you sure you want to delete all saved checklist history? This cannot be undone.')) {
+                localStorage.removeItem('safetyChecklistHistory');
+                loadHistory();
+                alert('All history has been cleared.');
+            }
+        }
+    </script>
+</body>
+</html>
