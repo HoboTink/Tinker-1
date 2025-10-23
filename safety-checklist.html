@@ -167,7 +167,7 @@
 
         .checklist-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
             margin-bottom: 20px;
         }
@@ -566,7 +566,7 @@
                     <div class="category-card" data-category="equip">
                         <div class="category-title">
                             Machinery and Equipment
-                            <span class="category-progress" data-progress="equip">0/5</span>
+                            <span class="category-progress" data-progress="equip">0/4</span>
                         </div>
                         <div class="checklist-item" onclick="toggleCheckbox('equip1')">
                             <input type="checkbox" id="equip1" name="equip" onclick="event.stopPropagation()">
@@ -583,10 +583,6 @@
                         <div class="checklist-item" onclick="toggleCheckbox('equip4')">
                             <input type="checkbox" id="equip4" name="equip" onclick="event.stopPropagation()">
                             <label for="equip4">Lockout/tagout procedures being followed</label>
-                        </div>
-                        <div class="checklist-item" onclick="toggleCheckbox('equip5')">
-                            <input type="checkbox" id="equip5" name="equip" onclick="event.stopPropagation()">
-                            <label for="equip5">Equipment operating manuals accessible</label>
                         </div>
                     </div>
 
@@ -618,27 +614,23 @@
                     <div class="category-card" data-category="chem">
                         <div class="category-title">
                             Chemical Safety
-                            <span class="category-progress" data-progress="chem">0/5</span>
+                            <span class="category-progress" data-progress="chem">0/4</span>
                         </div>
                         <div class="checklist-item" onclick="toggleCheckbox('chem1')">
                             <input type="checkbox" id="chem1" name="chem" onclick="event.stopPropagation()">
-                            <label for="chem1">Safety Data Sheets (SDS) accessible to all</label>
+                            <label for="chem1">Chemical containers properly labeled</label>
                         </div>
                         <div class="checklist-item" onclick="toggleCheckbox('chem2')">
                             <input type="checkbox" id="chem2" name="chem" onclick="event.stopPropagation()">
-                            <label for="chem2">Chemical containers properly labeled</label>
+                            <label for="chem2">Chemicals stored properly and segregated</label>
                         </div>
                         <div class="checklist-item" onclick="toggleCheckbox('chem3')">
                             <input type="checkbox" id="chem3" name="chem" onclick="event.stopPropagation()">
-                            <label for="chem3">Chemicals stored properly and segregated</label>
+                            <label for="chem3">Eye wash stations and safety showers accessible</label>
                         </div>
                         <div class="checklist-item" onclick="toggleCheckbox('chem4')">
                             <input type="checkbox" id="chem4" name="chem" onclick="event.stopPropagation()">
-                            <label for="chem4">Eye wash stations and safety showers accessible</label>
-                        </div>
-                        <div class="checklist-item" onclick="toggleCheckbox('chem5')">
-                            <input type="checkbox" id="chem5" name="chem" onclick="event.stopPropagation()">
-                            <label for="chem5">Chemical spill kits available and complete</label>
+                            <label for="chem4">Chemical spill kits available and complete</label>
                         </div>
                     </div>
 
